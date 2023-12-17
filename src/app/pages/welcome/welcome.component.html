@@ -1,0 +1,8 @@
+<!-- app.component.html -->
+<div class="container">
+  <div class="chat-box">
+    <div *ngFor="let item of contextArray" class="text" [ngClass]="{'self': item.id === 'self', 'other': item.id !== 'self'}">{{item.content.slice(0, index)}}</div>
+  </div>
+  <input type="text" [(ngModel)]="prompt" placeholder="请输入你的问题">
+  <button (click)="sendPost()">发送</button>
+</div>
