@@ -1,0 +1,55 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <img src="https://api.zixiaoyun.com/v2/ico/icos/frU3QoVKX7X9J6drIqWV/31j.ico" alt="logo">
+      <h1>KnowledgeShare✨</h1>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="导航" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="welcome">问答Bot</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="viewnote">浏览笔记</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>创建笔记</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="管理员导航" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>用户管理</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>笔记管理</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <span class="trigger"
+                  nz-icon
+                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -5,26 +5,50 @@
   align-items: center;
 }
 
-.chat-box {
-  width: 80%;
-  height: 200px;
-  border: 1px solid black;
-  margin: 10px;
-  padding: 10px;
-  overflow-y: scroll;
+/* CSS样式 */
+input {
+  /* 设置输入框的宽度为80% */
+  width: 50%;
+  /* 设置输入框的高度为30px */
+  height: 30px;
+  /* 设置输入框的位置为固定 */
+  position: fixed;
+  /* 设置输入框的底部距离为10px */
+  bottom: 30px;
+  /* 设置输入框的左边距为10% */
+  margin-left: -15%;
 }
 
-.text {
-  font-family: 'Courier New', Courier, monospace;
-  white-space: pre-wrap;
+#send {
+  /* 设置按钮的宽度为10% */
+  width: 10%;
+  /* 设置按钮的高度为30px */
+  height: 30px;
+  /* 设置按钮的位置为固定 */
+  position: fixed;
+  /* 设置按钮的底部距离为10px */
+  bottom: 32px;
+  /* 设置按钮的右边距为10% */
+  margin-right: -50%;
 }
-
-.self {
-  color: blue;
-  text-align: right;
+#clear{
+  /* 设置按钮的宽度为10% */
+  width: 10%;
+  /* 设置按钮的高度为30px */
+  height: 30px;
+  /* 设置按钮的位置为固定 */
+  position: fixed;
+  /* 设置按钮的底部距离为10px */
+  bottom: 32.5px;
+  /* 设置按钮的右边距为10% */
+  margin-right: -65%;
 }
-
-.other {
-  color: green;
-  text-align: left;
+#chatbox{
+  width: 900px;
+  height: 400px;
+  overflow: scroll;
+  padding: 5px;
+}
+::-webkit-scrollbar {
+  display: none;
 }

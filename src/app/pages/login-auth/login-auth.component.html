@@ -1,0 +1,308 @@
+<body xmlns="http://www.w3.org/1999/html">
+<div class="background">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <!-- 登录模块 start -->
+        <div *ngIf="!isRegister" class="form">
+          <div class="form-signin container">
+            <div class="row mb-4">
+              <div class="col-md-12 h3 text-center">登录</div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputUserName" id="inputUserName" class="col-md-3 px-md-0 col-form-label">用户名：</label>
+              <div class="col-md-9 px-md-0">
+                <input
+                  type="text"
+                  class="input"
+                  id="regUserName"
+                  #userNameRef
+                  required
+                  autofocus
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputPassword" id="inputPassword" class="col-md-3 px-md-0 col-form-label">密 码：</label>
+              <div class="col-md-9 px-md-0">
+                <input
+                  class="input"
+                  type="password"
+                  id="password"
+                  #passwordRef
+                  required
+                />
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-5 offset-md-1 text-center">
+                <button
+                  class="btn btn-block button"
+                  (click)="submit(userNameRef.value, passwordRef.value)"
+                >
+                  登录
+                </button>
+              </div>
+              <div class="col-md-5 offset-md-1 text-center">
+                <button class="btn btn-block button" (click)="isRegister = true">注册</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 登录模块 end -->
+      </div>
+      <!--注册模块 start-->
+      <form [formGroup]="RegisterFormModel">
+        <div *ngIf="isRegister" class="form">
+          <div class="form-signin container">
+            <div class="row mb-4">
+              <div class="col-md-12 h3 text-center">注册</div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputRegUserName" id="inputRegUserName"
+                     class="col-md-3 px-md-0 col-form-label" autocomplete="off">用户名：</label>
+              <div class="col-md-9 px-md-0">
+                <input
+                  type="text"
+                  class="input"
+                  id="userName"
+                  formControlName="username"
+                  required
+                  autofocus
+                />
+                <label class="initAlert" [hidden]="!RegisterFormModel.hasError('required', 'username')">❗</label>
+              </div>
+              <div class="row mb-2 Alert" [hidden]="!RegisterFormModel.hasError('minlength', 'username')">用户名最小长度是6
+              </div>
+            </div>
+
+
+            <div formGroupName="passwordsGroup">
+              <div class="row mb-2">
+                <label for="inputRegPassword" id="inputRegPassword" class="col-md-3 px-md-0 col-form-label">密
+                  码：</label>
+                <div class="col-md-9 px-md-0">
+                  <input
+                    class="input"
+                    type="password"
+                    id="regPassWord"
+                    formControlName="password"
+                    required
+                  />
+                  <label class="initAlert"
+                         [hidden]="!RegisterFormModel.hasError('required', 'passwordsGroup.password')">❗</label>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <label for="inputConfirmPassword" id="inputConfirmPassword"
+                       class="col-md-3 px-md-0 col-form-label">确认密码：</label>
+                <div class="col-md-9 px-md-0">
+                  <input
+                    class="input"
+                    type="password"
+                    id="confirmRegPassWord"
+                    formControlName="confirmPassWord"
+                    required
+                  />
+                  <label class="initAlert" [hidden]="!RegisterFormModel.hasError('required', 'passwordsGroup.confirmPassWord')">❗</label>
+                </div>
+                <div class="row mb-2 Alert" [hidden]="!RegisterFormModel.hasError('equal', 'passwordsGroup')">
+                  {{RegisterFormModel.getError('equal', 'passwordsGroup')?.descAlert}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputEmail" id="inputEmail" class="col-md-3 px-md-0 col-form-label">邮 箱：</label>
+              <div class="col-md-9 px-md-0">
+                <input
+                  class="input"
+                  type="email"
+                  id="regEmail"
+                  formControlName="email"
+                  required
+                />
+                <label class="initAlert" [hidden]="!RegisterFormModel.hasError('required', 'email')">❗</label>
+              </div>
+              <div class="row mb-2 Alert" [hidden]="!RegisterFormModel.hasError('pattern', 'email')">邮箱格式不正确
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputBirthday" id="inputBirthday" class="col-md-3 px-md-0 col-form-label">生 日：</label>
+              <div class="col-md-9 px-md-0">
+                <!-- <input
+                  class="input"
+                  type="text"
+                  id="regBirthday"
+                  formControlName="birthday"
+                  style="width: 210px"
+                  pattern="\d{4}-\d{2}-\d{2}"
+                  placeholder = "yyyy-MM-dd"
+                  autocomplete="off"
+                /> -->
+                <!-- <script>
+                  var input = document.querySelector("input[type = date]");
+                  input.placeholder = "年/月/日"
+                </script> -->
+                <input
+                  class="input"
+                  type="date"
+                  id="regBirthday"
+                  formControlName="birthday"
+                  style="width: 210px"
+                  pattern="\d{4}-\d{2}-\d{2}"
+                  autocomplete="off"
+                />
+
+              </div>
+              <div class="row mb-2 Alert" [hidden]="!RegisterFormModel.hasError('pattern', 'birthday')">日期格式不正确
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputGender" id="inputGender" class="col-md-3 px-md-0 col-form-label">性 别：</label>
+              <input
+                style="width: 13px;margin-left: 25px"
+                class="ratio"
+                type="radio"
+                id="regGender1"
+                name="gender"
+                value="1"
+                formControlName="gender"
+              />
+              <label style="width: 40px" for="regGender1">男 </label>
+              <input
+                style="width: 13px;margin-left: 50px"
+                class="ratio"
+                type="radio"
+                name="gender"
+                id="regGender2"
+                value="0"
+                formControlName="gender"
+              />
+              <label style="width: 40px" for="regGender2">女 </label>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputGrade" id="inputGrade" class="col-md-3 px-md-0 col-form-label">年 级：</label>
+              <div class="col-md-9 px-md-0">
+                <select
+                  class="form-select-sm"
+                  id="regGrade"
+                  formControlName="regGrade"
+                >
+                  <option value="0">--请选择年级--</option>
+                  <option value="1">大一</option>
+                  <option value="2">大二</option>
+                  <option value="3">大三</option>
+                  <option value="4">大四</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputInterest" id="inputInterest" class="col-md-3 px-md-0 col-form-label">兴 趣：</label>
+              <div class="col-md-9 px-md-0" style="display: flex;">
+                <div *ngFor="let data of interests;">
+                  <input style="margin-left: 16px" value="{{data.interest}}" (change)="termsChange($event)" type="checkbox" > {{data.interest}}
+                </div>
+                <!--<input
+                  class="form-check"
+                  type="checkbox"
+                  id="regInterest"
+                  formControlName="regInterest1"
+                  value="电影"
+                />
+                <input
+                  style="margin-left: 35px"
+                  class="form-check"
+                  type="checkbox"
+                  id="regInterest2"
+                  formControlName="regInterest2"
+                  value="唱歌"
+                />
+                <label for="regInterest2">唱歌</label>
+                <input
+                  style="margin-left: 35px"
+                  class="form-check"
+                  type="checkbox"
+                  id="regInterest3"
+                  formControlName="regInterest3"
+                  value="读书"
+                />
+                <label for="regInterest3">读书</label>-->
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <label for="inputIntroduce" id="inputIntroduce" class="col-md-3 px-md-0 col-form-label">自我介绍：</label>
+              <div class="col-md-9 px-md-0">
+                <input
+                  class="input"
+                  type="text"
+                  id="regIntroduce"
+                  formControlName="regIntroduce"
+                  style="height:60px;border-radius: 20px"
+                />
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div *ngIf="RegisterFormModel.valid" class="col-md-5 offset-md-1 text-center">
+                <button
+                  class="btn btn-block button"
+                  type="submit"
+                  style="background-color: rgba(60,179,113,0.85);border:rgba(60,179,113,0.85)"
+                  (click)="onRegister()"
+                  [disabled]="!RegisterFormModel.valid"
+                >
+                  注册
+                </button>
+              </div>
+              <div *ngIf="!RegisterFormModel.valid" class="col-md-5 offset-md-1 text-center">
+                <button
+                  class="btn btn-block button"
+                  type="submit"
+                  style="background-color: rgba(229,4,4,0.8);border:rgba(229,4,4,0.8) "
+                  (click)="onRegister()"
+                  [disabled]="!RegisterFormModel.valid"
+                >
+                  注册
+                </button>
+              </div>
+              <div class="col-md-5 offset-md-1 text-center">
+                <button class="btn btn-block button"  (click)="isRegister = false">返回登陆</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--注册模块 end-->
+  </div>
+  <!--Waves Container-->
+  <div class="waves_header">
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave"
+                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(255,255,255,0.3)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <!--Waves end-->
+</div>
+
+</body>

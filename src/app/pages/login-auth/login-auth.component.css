@@ -1,0 +1,168 @@
+.background{
+  /*background: url("image/1.jpg");*/
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: linear-gradient(60deg, rgba(84, 58, 183, 1) 0%, rgb(0, 193, 177) 100%);
+  background-size: 300% 300%;
+  animation: gradientBG 10s ease-in-out infinite;
+}
+
+.initAlert{
+  width: 10px;
+}
+
+.form{
+  backdrop-filter: blur(20px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 2px 20px 2px rgba(0, 0, 0, 0.13);
+  background-color: rgba(70, 255, 247, 0.3);
+  width: 50%;
+  padding: 10px;
+  border-radius: 30px;
+  z-index: 10;
+}
+.form-signin{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.input{
+  background-color: rgba(70, 255, 247, 0.18);
+  backdrop-filter: blur(20px);
+  border: rgba(126, 193, 224, 0);
+  border-radius: 30px;
+  height: 30px;
+  color: white;
+  outline:none;
+  padding-left:30px;
+}
+#regGrade{
+  width: 210px;
+  background-color: rgba(70, 255, 247, 0.18);
+  backdrop-filter: blur(20px);
+  border: rgba(126, 193, 224, 0);
+  border-radius: 30px;
+  height: 30px;
+  color: white;
+  outline:none;
+  padding-left:30px;
+}
+option{
+  background-color: white;
+  color: black;
+}
+
+
+.form-signin {
+  max-width: 330px;
+}
+
+.col-form-label {
+  line-height: 1;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0 50%;
+  }
+  25%{
+    background-position: 50% 25%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75%{
+    background-position: 25% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.waves_header {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 0;
+}
+
+.waves {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-bottom: -7px; /*Fix for safari gap*/
+  min-height: 100px;
+  max-height: 200px;
+}
+
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .content {
+    height: 30vh;
+  }
+
+}
+
+.button{
+  border-radius: 40px;
+  background-color: rgba(70, 255, 247, 0.24);
+  backdrop-filter: blur(20px);
+}
+
+.Alert{
+  color: firebrick;
+}
+
+/* input[type="date"]::-webkit-datetime-edit-fields-wrapper{
+
+} */
+.custom-date-input {
+
+}
