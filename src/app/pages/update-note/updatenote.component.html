@@ -1,0 +1,11 @@
+<!--<button (click)="contentInfo()">查看编辑器的内容信息</button>-->
+<input class="ant-input" id="titleInput" [(ngModel)]="noteTitle" (ngModelChange)="ifInput()"
+       placeholder="请输入文章标题">
+<input class="ant-input" id="simpleContentInput" [(ngModel)]="noteSimpleContent" (ngModelChange)="ifInput()"
+       placeholder="请输入文章简述">
+<input class="ant-input" id="tag" [(ngModel)]="tag" (ngModelChange)="ifInput()" placeholder="Tag">
+<editor style="z-index: 0" id="001"
+        [init]="editorConfig" (ngModelChange)="ifInput()" [(ngModel)]="noteContent"
+></editor>
+<button nzType="primary" [disabled]="canPost" nz-button id="postNote" (click)="postContent()">提交到服务器</button>
+

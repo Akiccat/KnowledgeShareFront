@@ -1,0 +1,48 @@
+<input class="ant-input" id="searchInput" [(ngModel)]="noteSearch" (ngModelChange)="ifInput()"
+       placeholder="可以通过 #Tag 进行搜索">
+<button nzType="primary" id="searchInputButton" [disabled]="canPost" nz-button (click)="postSearch()">搜索</button>
+<nz-table #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '450px' }">
+  <thead>
+  <tr>
+    <th nzLeft>笔记tag</th>
+    <th>上传人</th>
+    <th nzRight>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of fixedTable.data">
+    <td nzLeft>#{{ data.noteTag }}</td>
+    <td>{{ data.userName }}</td>
+    <td nzRight>
+      <button nzType="primary" id="EditButton" nz-button (click)="open(editTagModal,data.noteId)">修改</button>
+      <button nzType="primary" id="DeleteButton" nzDanger nz-button nz-popconfirm
+              nzPopconfirmTitle="删除这个标签意味着删除该标签下你发布的所有文章，你确定这样做吗?"
+              (nzOnConfirm)="deleteNote(data.noteTag)"
+              nzPopconfirmPlacement="bottom">删除
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<ng-template #editTagModal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">修改Tag</h4>
+    <button nz-button nzDanger class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2 search">
+      <label for="inputPassword" id="inputPassword" class="col-md-4 col-form-label">新Tag名：</label>
+      <div>
+        <input type="text" class="inputAddBook" id="password" autofocus [(ngModel)]="newTagName"/>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button style="border-radius: 30px;" class="ButtonModal" nz-button nzType="primary"
+            (click)="modal.dismiss('Cross click')" (click)="onEdit()">提交
+    </button>
+  </div>
+</ng-template>

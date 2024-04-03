@@ -1,0 +1,177 @@
+.html {
+  height: 100%;
+}
+
+.initAlert {
+  width: 10px;
+}
+
+.userInfo {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  font-size: large;
+}
+
+.userInfo div {
+  margin-bottom: 20px;
+}
+
+.rightPanel {
+  backdrop-filter: blur(20px);
+  position: absolute;
+  top: 55%;
+  left: 58%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 20px 2px rgba(0, 0, 0, 0.13);
+  background-color: rgba(173, 173, 173, 0.11);
+  width: 50%;
+  height: 75%;
+  /* padding: 10px; */
+  border-radius: 30px;
+  z-index: 9;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.rightPanel::-webkit-scrollbar {
+  display: none;
+}
+
+.rightPanel-warpper {
+  overflow: hidden;
+}
+
+.col-form-label {
+  margin-left: 6%;
+}
+
+.input {
+  background-color: rgba(70, 255, 247, 0.18);
+  backdrop-filter: blur(20px);
+  border: rgba(126, 193, 224, 0);
+  border-radius: 30px;
+  height: 30px;
+  color: white;
+  outline: none;
+  width: 85%;
+  margin-left: 5%;
+  padding-left: 30px;
+}
+
+#submitButton {
+  position: absolute;
+  border-radius: 40px;
+  border: 5px cadetblue;
+  width: 60%;
+  left: 120%;
+  height: 40px;
+}
+
+#passwordSubmitButton {
+  position: absolute;
+  border-radius: 40px;
+  border: 5px cadetblue;
+  width: 60%;
+  left: 200%;
+  height: 40px;
+}
+
+#customers {
+  position: absolute;
+  left: 7%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 15px;
+  width: 90%;
+}
+
+.Alert {
+  margin-top: 15px;
+  margin-left: 8px;
+  color: firebrick;
+}
+
+.line {
+  position: absolute;
+  width: 10px;
+  height: 95%;
+  top: 1vw;
+  left: 20%;
+  border-right: solid rgba(255, 255, 255, 0.68) 2px;
+}
+
+.returnListDisplay table {
+  position: absolute;
+  width: 70%;
+  left: 25%;
+  top: 4%;
+  text-align: center
+}
+
+table,
+th,
+td {
+  overflow: clip;
+  border: 1px solid rgba(243, 243, 243, 0.57);
+}
+
+.returnListDisplay button {
+  width: 50px;
+  height: 30px;
+  font-size: 15px;
+}
+
+thead td {
+  background-color: rgba(243, 243, 243, 0.57);
+}
+
+#customers td {
+  padding: 4px;
+}
+
+#attention {
+  position: absolute;
+  width: 70%;
+  left: 25%;
+  top: 4%;
+  text-align: center;
+}
+
+.searchInput {
+  position: absolute;
+  top: 33%;
+}
+
+.searchInput search {
+  float: initial;
+  width: 20%;
+}
+
+.searchInput button {
+  width: 11rem;
+  margin-left: 1vw;
+  margin-top: 1vw
+}
+
+
+.col-form-label {
+  line-height: 1;
+}
+
+.inputAddBook {
+  border: rgba(126, 193, 224, 0);
+  border-radius: 30px;
+  height: 30px;
+  width: 85%;
+  margin-left: 5%;
+  padding-left: 30px;
+  background-color: rgb(230, 230, 230);
+}
+
+.close {
+  border-radius: 30px;
+  outline: none;
+}
+

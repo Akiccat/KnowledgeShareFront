@@ -1,0 +1,34 @@
+<input class="ant-input" id="searchInput" [(ngModel)]="noteSearch" (ngModelChange)="ifInput()"
+       placeholder="可以通过 标题 或者 #Tag 进行搜索">
+<button nzType="primary" id="searchInputButton" [disabled]="canPost" nz-button (click)="postSearch()">搜索</button>
+<nz-table #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '450px' }">
+  <thead>
+  <tr>
+    <th nzLeft>笔记ID</th>
+    <th nzLeft>笔记标题</th>
+    <th nzLeft>笔记tag</th>
+    <th>笔记简述</th>
+    <th>上传人</th>
+    <th>笔记封面</th>
+    <th nzRight>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of fixedTable.data">
+    <td nzLeft>{{ data.noteId }}</td>
+    <td nzLeft>{{ data.noteTitle }}</td>
+    <td nzLeft>#{{ data.noteTag }}</td>
+    <td>{{ data.noteSimpleContent }}</td>
+    <td>{{ data.userName }}</td>
+    <td><img [src]="data.noteCover" height="100px" width="100px" alt="example"></td>
+    <td nzRight>
+      <button nzType="primary" id="EditButton" nz-button (click)="updateNote(data.noteId)">修改</button>
+      <button nzType="primary" id="DeleteButton" nzDanger nz-button nz-popconfirm
+              nzPopconfirmTitle="你确定要删除这个笔记吗?"
+              (nzOnConfirm)="deleteNote(data.noteId)"
+              nzPopconfirmPlacement="bottom">删除
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

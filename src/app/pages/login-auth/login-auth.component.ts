@@ -8,6 +8,7 @@ import {STORAGE_KEY_USER} from "../../../shared/constants/common.constant";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {confirmPassWordValidator} from "./RegisterValidators";
 import {NgIf} from "@angular/common";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'app-login-my',
@@ -26,7 +27,8 @@ export class LoginAuthComponent {
   constructor(private service: LoginAuthService,
               private router: Router,
               private fb: FormBuilder,
-              private route:ActivatedRoute) {
+              private route: ActivatedRoute,
+              private message: NzMessageService) {
   }
   /**
    * 登录
@@ -37,24 +39,26 @@ export class LoginAuthComponent {
    */
   public submit(userName: string, password: string): void {
     console.log(this.router.config);
-    this.router.navigate(['/mainpage'],{relativeTo: this.route})
-    // // this.errorMessage = null;
-    // this.service.login(userName, password).subscribe((result: HttpResult) => {
-    //   if (result.status !== HttpResultStatus.SUCCESS) {
-    //     // this.errorMessage = result.errors[0]?.message || '登录失败';
-    //     alert("登录失败");
-    //   } else {
-    //     const user: User = result.result;
-    //     //localStorage.setItem(key,value)：将value存储到key字段
-    //     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
-    //     if (user !== null && user.userType == 1){
-    //       // 管理员
-    //       this.router.navigate([`/details`]);
-    //       alert("成功登录");
-    //     }
-    //     else {alert("成功失败");}
-    //   }
-    // });
+    // this.errorMessage = null;
+    this.service.login(userName, password).subscribe((result: HttpResult) => {
+      console.log(result.status + HttpResultStatus.SUCCESS)
+      console.log(result.status == HttpResultStatus.SUCCESS)
+      if (result.status == HttpResultStatus.SUCCESS) {
+        const user: User = result.result;
+        //localStorage.setItem(key,value)：将value存储到key字段
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
+        if (user !== null && user.accessCode == 0) {
+          // 管理员
+          this.router.navigate(['/mainpage'], {relativeTo: this.route})
+          this.message.success("登录成功")
+        } else {
+          alert("登录失败");
+        }
+      } else {
+        // this.errorMessage = result.errors[0]?.message || '登录失败';
+        alert("登录失败");
+      }
+    });
   }
 
   /**
@@ -70,7 +74,7 @@ export class LoginAuthComponent {
     let grade = this.regGrade.value
     let interest: string = this.checkBoxValue.join(",")
     let introduction = this.regIntroduce.value
-    this.service.register(userName,passwordGroup.password,email,birthday,gender,grade,interest,introduction).subscribe(()=>{
+    this.service.register(userName, passwordGroup.confirmPassWord, passwordGroup.password, email, birthday, gender, grade, interest, introduction).subscribe(() => {
       this.isRegister = false
       alert("成功注册");
     })
@@ -93,7 +97,6 @@ export class LoginAuthComponent {
         Validators.minLength(6)
       ]],
       passwordsGroup: this.fb.group({
-
         password: ['',
         ],
         confirmPassWord: ['',

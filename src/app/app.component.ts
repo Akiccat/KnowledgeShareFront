@@ -7,7 +7,6 @@ import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
-
 @Component({
   selector: 'app-root',
   standalone: true,

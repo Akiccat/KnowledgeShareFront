@@ -6,30 +6,46 @@
 }
 
 /* CSS样式 */
-input {
+#inputPrompt {
   /* 设置输入框的宽度为80% */
   width: 50%;
   /* 设置输入框的高度为30px */
-  height: 30px;
+  height: 40px;
   /* 设置输入框的位置为固定 */
   position: fixed;
   /* 设置输入框的底部距离为10px */
   bottom: 30px;
   /* 设置输入框的左边距为10% */
   margin-left: -15%;
+  border-radius: 30px;
 }
 
 #send {
   /* 设置按钮的宽度为10% */
   width: 10%;
   /* 设置按钮的高度为30px */
-  height: 30px;
+  height: 40px;
   /* 设置按钮的位置为固定 */
   position: fixed;
   /* 设置按钮的底部距离为10px */
   bottom: 32px;
   /* 设置按钮的右边距为10% */
-  margin-right: -50%;
+  margin-right: -48%;
+  border-radius: 30px;
+}
+
+#reply {
+  /* 设置按钮的宽度为10% */
+  width: 5%;
+  /* 设置按钮的高度为30px */
+  height: 40px;
+  /* 设置按钮的位置为固定 */
+  position: fixed;
+  /* 设置按钮的底部距离为10px */
+  bottom: 32px;
+  /* 设置按钮的右边距为10% */
+  margin-right: -65%;
+  border-radius: 30px;
 }
 #clear{
   /* 设置按钮的宽度为10% */
@@ -51,4 +67,25 @@ input {
 }
 ::-webkit-scrollbar {
   display: none;
+}
+
+#container {
+  margin-top: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  top: 40%;
+  left: 20%;
+  font-family: Arial, sans-serif;
+  font-size: xx-large;
+}
+
+#greeting {
+  margin-bottom: 10px;
+}
+
+#fun {
+  font-weight: bold;
 }

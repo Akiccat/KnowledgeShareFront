@@ -1,0 +1,32 @@
+div {
+  height: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+div.line-chart {
+  float: left;
+  width: 50%; /* 两个div宽度平分父元素 */
+  box-sizing: border-box; /* 让边框和内边距计入宽度 */
+}
+
+div.chartMap {
+  float: left;
+  width: 50%; /* 两个div宽度平分父元素 */
+  box-sizing: border-box; /* 让边框和内边距计入宽度 */
+}
+
+div.pieMap {
+  margin-top: -10%;
+  float: left;
+  width: 50%; /* 两个div宽度平分父元素 */
+  box-sizing: border-box; /* 让边框和内边距计入宽度 */
+}
+
+div.BarChart {
+  margin-top: -10%;
+  float: left;
+  width: 50%; /* 两个div宽度平分父元素 */
+  box-sizing: border-box; /* 让边框和内边距计入宽度 */
+}

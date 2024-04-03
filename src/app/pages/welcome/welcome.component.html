@@ -1,5 +1,17 @@
 <!-- app.component.html -->
 <div class="container">
+  <button nz-button nzType="primary" (click)="open()">New Cookbook</button>
+  <div *ngIf="!ifAsk" id="container">
+    <div id="greeting">
+      Hi！
+    </div>
+    <div id="welcome-message">
+      欢迎使用问答Bot🤖，与使用GPT3.5-Turbo一样
+    </div>
+    <div id="fun">
+      Any Questions&nbsp;&&nbsp;Have Fun
+    </div>
+  </div>
   <div #AiResult>
     <nz-list *ngIf="data.length" [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
       <ng-template #item let-item>
@@ -15,6 +27,49 @@
       </ng-template>
     </nz-list>
   </div>
-  <input type="text" nz-input [(ngModel)]="prompt" placeholder="请输入你的问题">
+  <input id="inputPrompt" type="text" nz-input [(ngModel)]="prompt" placeholder="请输入你的问题">
   <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!prompt" id="send" (click)="sendPost()">发送</button>
+  <button nz-button nzType="primary" [nzLoading]="replying" [disabled]="!replyDone" id="reply" (click)="sendToEditor()">
+    转存
+  </button>
 </div>
+<nz-drawer
+  [nzClosable]="false"
+  [nzOffsetX]="childrenVisible ? 180 : 0"
+  [nzWidth]="320"
+  [nzVisible]="visible"
+  nzTitle="Cookbook"
+  (nzOnClose)="close()"
+>
+  <form *nzDrawerContent nz-form>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Name</nz-form-label>
+          <nz-form-control>
+            <input nz-input placeholder="please enter cookbook name"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Food</nz-form-label>
+          <nz-form-control>
+            <nz-tag>potato</nz-tag>
+            <nz-tag>eggplant</nz-tag>
+            <nz-tag (click)="openChildren()">+</nz-tag>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+  <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
+    <nz-list *nzDrawerContent [nzDataSource]="vegetables" [nzRenderItem]="item">
+      <ng-template #item let-item>
+        <nz-list-item [nzContent]="item"></nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-drawer>
+</nz-drawer>

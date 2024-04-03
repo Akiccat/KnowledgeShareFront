@@ -1,76 +1,28 @@
-<div style="background: #ECECEC;padding:30px;">
-  <div nz-row [nzGutter]="8">
-    <div nz-col [nzSpan]="8">
-      <nz-card nzHoverable style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-        <nz-card-meta
-          nzTitle="Card title"
-          nzDescription="This is the description"
-          [nzAvatar]="avatarTemplate"
-        ></nz-card-meta>
-      </nz-card>
-      <ng-template #avatarTemplate>
-        <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-      </ng-template>
-      <ng-template #coverTemplate>
-        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-      </ng-template>
-      <ng-template #actionSetting>
-        <span nz-icon nzType="setting"></span>
-      </ng-template>
-      <ng-template #actionEdit>
-        <span nz-icon nzType="edit"></span>
-      </ng-template>
-      <ng-template #actionEllipsis>
-        <span nz-icon nzType="ellipsis"></span>
-      </ng-template>
-    </div>
-    <div nz-col [nzSpan]="8">
-      <nz-card nzHoverable style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-        <nz-card-meta
-          nzTitle="Card title"
-          nzDescription="This is the description"
-          [nzAvatar]="avatarTemplate"
-        ></nz-card-meta>
-      </nz-card>
-      <ng-template #avatarTemplate>
-        <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-      </ng-template>
-      <ng-template #coverTemplate>
-        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-      </ng-template>
-      <ng-template #actionSetting>
-        <span nz-icon nzType="setting"></span>
-      </ng-template>
-      <ng-template #actionEdit>
-        <span nz-icon nzType="edit"></span>
-      </ng-template>
-      <ng-template #actionEllipsis>
-        <span nz-icon nzType="ellipsis"></span>
-      </ng-template>
-    </div>
-    <div nz-col [nzSpan]="8">
-      <nz-card nzHoverable style="width:300px;" [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-        <nz-card-meta
-          nzTitle="Card title"
-          nzDescription="This is the description"
-          [nzAvatar]="avatarTemplate"
-        ></nz-card-meta>
-      </nz-card>
-      <ng-template #avatarTemplate>
-        <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
-      </ng-template>
-      <ng-template #coverTemplate>
-        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-      </ng-template>
-      <ng-template #actionSetting>
-        <span nz-icon nzType="setting"></span>
-      </ng-template>
-      <ng-template #actionEdit>
-        <span nz-icon nzType="edit"></span>
-      </ng-template>
-      <ng-template #actionEllipsis>
-        <span nz-icon nzType="ellipsis"></span>
-      </ng-template>
+<input class="ant-input" id="searchInput" [(ngModel)]="noteSearch" (ngModelChange)="ifInput()"
+       placeholder="可以通过 标题 或者 #Tag 进行搜索">
+<button nzType="primary" id="searchInputButton" [disabled]="canPost" nz-button (click)="postSearch()">搜索</button>
+<div id="noteDisplay" style="background-color: rgba(212,212,212,0.4);padding:30px;">
+  <div>
+    <div nz-row [nzGutter]="8">
+      <div *ngFor="let note of noteList" nz-col [nzSpan]="8">
+        <!--        [nzActions]="[star, heart]-->
+        <nz-card [routerLink]="['/mainpage/notedetail',1,note.noteId]" nzHoverable
+                 style="width:300px;margin-bottom: 25px;margin-left: 25px;" [nzCover]="coverTemplate">
+          <nz-card-meta
+            [nzTitle]="note.noteTitle + '             #'+note.noteTag"
+            [nzDescription]="note.noteSimpleContent"
+          ></nz-card-meta>
+        </nz-card>
+        <ng-template #coverTemplate>
+          <img alt="example" height="225.4px" [src]="note.noteCover"/>
+        </ng-template>
+        <!--        <ng-template #star>-->
+        <!--          <span nz-icon nzType="star"></span>-->
+        <!--        </ng-template>-->
+        <!--        <ng-template #heart>-->
+        <!--          <span nz-icon nzType="heart"></span>-->
+        <!--        </ng-template>-->
+      </div>
     </div>
   </div>
 </div>

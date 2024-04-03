@@ -1,0 +1,113 @@
+#noteDisplay {
+  height: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#EditButton {
+  position: absolute;
+  z-index: 10;
+  left: 78.9%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+}
+
+#DeleteButton {
+  position: absolute;
+  z-index: 10;
+  left: 82.95%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+}
+
+#StarButton {
+  position: absolute;
+  z-index: 10;
+  left: 91%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+}
+
+#unStarButton {
+  position: absolute;
+  z-index: 10;
+  left: 91%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+}
+
+#unStarButtonFont {
+  margin-left: -10px;
+  font-size: 12px;
+}
+
+#BackButton {
+  position: absolute;
+  z-index: 10;
+  left: 95%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+}
+
+#noteInfo {
+  background-color: white;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 10px;
+  border-radius: 30px;
+  height: 40px;
+  width: 600px;
+  white-space: nowrap; /* 禁止文字换行 */
+  overflow: hidden; /* 隐藏超过容器宽度的内容 */
+  text-overflow: ellipsis; /* 文字超出时显示省略号 */
+}
+
+#noteDetail {
+  height: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#postReply {
+  margin-top: 10px;
+  border-radius: 30px;
+  margin-left: 28%;
+  width: 500px;
+  height: 35px;
+}
+
+#replyButton {
+  background-color: transparent;
+  border: none;
+  border-radius: 30px;
+  height: 30px;
+  font-size: xx-small;
+  width: 80px;
+}
+
+#shareButton {
+  position: absolute;
+  z-index: 10;
+  left: 86.9%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 60px;
+  background-color: #2dc26b;
+}
+
+#003 {
+  background-color: white;
+}

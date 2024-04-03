@@ -28,10 +28,11 @@ export class LoginAuthService {
     });
   }
 
-  public register(userName: string, password: string, email: string, birthday: Date, gender: number, grade: string, interest: string,introduction: string): Observable<HttpResult> {
+  public register(userName: string, confirmPassword: string, password: string, email: string, birthday: Date, gender: number, grade: string, interest: string, introduction: string): Observable<HttpResult> {
     return this.httpClient.post<HttpResult>(apiUrl.register, {
       userName: userName,
       password: password,
+      confirmPassword: confirmPassword,
       email: email,
       birthday: birthday,
       gender: gender,

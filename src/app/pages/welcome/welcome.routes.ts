@@ -4,5 +4,4 @@ import {SideBarComponent} from "../side-bar/side-bar.component";
 
 export const WELCOME_ROUTES: Routes = [
   { path: '', component: WelcomeComponent },
-  { path: '', component: SideBarComponent }
 ];

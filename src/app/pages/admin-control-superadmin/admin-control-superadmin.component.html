@@ -1,0 +1,159 @@
+<input class="ant-input" id="searchInput" [(ngModel)]="userSearch" (ngModelChange)="ifInput()"
+       placeholder="搜索用户名字的 全部 或者 部分 来搜索用户">
+<button nzType="primary" id="searchInputButton" [disabled]="canPost" nz-button (click)="postSearch()">搜索</button>
+<nz-table #fixedTable [nzData]="listOfData" [nzScroll]="{ x: '1150px', y: '450px' }">
+  <thead>
+  <tr>
+    <th nzLeft>用户ID</th>
+    <th nzLeft>用户名</th>
+    <th>邮箱</th>
+    <th>生日</th>
+    <th>性别</th>
+    <th>年级</th>
+    <th>兴趣</th>
+    <th>自我介绍</th>
+    <th>是否封禁</th>
+    <th nzRight>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of fixedTable.data">
+    <td nzLeft>{{ data.userId }}</td>
+    <td nzLeft>{{ data.userName }}</td>
+    <td>{{ data.email }}</td>
+    <td>{{ data.birthday }}</td>
+    <td>{{ data.gender }}</td>
+    <td>{{ data.grade }}</td>
+    <td>{{ data.interest }}</td>
+    <td>{{ data.introduction }}</td>
+    <td>{{ data.deleteFlag }}</td>
+    <td nzRight>
+      <button nzType="primary" nz-button (click)="open(editUsermodal,data.userId)">修改信息</button>
+      <button nzType="primary" nz-button (click)="open(editPassWordModal,data.userId)">修改密码</button>
+      <button nzType="primary" nz-button (click)="setAsUser(data.userId)">设为用户</button>
+      <button *ngIf="data.deleteFlag == '0'" nzType="primary" nzDanger nz-button nz-popconfirm
+              nzPopconfirmTitle="你确定要封禁这个管理吗?"
+              (nzOnConfirm)="banUser(data.userId)"
+              nzPopconfirmPlacement="bottom">封禁管理
+      </button>
+      <button *ngIf="data.deleteFlag == '1'" nzType="primary" nzDanger nz-button nz-popconfirm
+              nzPopconfirmTitle="你确定要解禁这个管理吗?"
+              (nzOnConfirm)="unbanUser(data.userId)"
+              nzPopconfirmPlacement="bottom">解禁管理
+      </button>
+
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<ng-template #editUsermodal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">修改用户</h4>
+    <button nz-button nzDanger class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="EditUserModel">
+    <div class="modal-body">
+      <div class="row mb-2 search">
+        <label for="inputUserName" id="inputUserName" class="col-md-4 col-form-label">用户名：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="userName" autofocus [placeholder]="this._editUser.userName"
+                 formControlName="userName"/>
+        </div>
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputEmail" id="inputEmail" class="col-md-4 col-form-label">邮箱：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="email" autofocus formControlName="email"
+                 [placeholder]="this._editUser.email ? this._editUser.email : '未填写邮箱'"/>
+        </div>
+      </div>
+      <div style="margin-left: 22px" class="Alert" [hidden]="!EditUserModel.hasError('pattern', 'email')">
+        email格式不正确
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputBirthday" id="inputBirthday" class="col-md-4 col-form-label">生日：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="birthday" autofocus formControlName="birthday"
+                 [placeholder]="this._editUser.birthday ? this._editUser.birthday : '未填写生日'"/>
+        </div>
+      </div>
+      <div style="margin-left: 22px" class="Alert" [hidden]="!EditUserModel.hasError('pattern', 'birthday')">
+        日期格式必须是yyyy-MM-dd &nbsp; 举例：2001-09-30
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputGender" id="inputGender" class="col-md-4 col-form-label">性别：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="gender" autofocus formControlName="gender"
+                 [placeholder]="this._editUser.gender?this._editUser.gender : '未填写性别'"/>
+        </div>
+      </div>
+      <div style="margin-left: 22px" class="Alert" [hidden]="!EditUserModel.hasError('pattern', 'gender')">0:女 1：男
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputGrade" id="inputGrade" class="col-md-4 col-form-label">年级：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="grade" autofocus formControlName="grade"
+                 [placeholder]="this._editUser.grade?this._editUser.grade : '未填写年级'"/>
+        </div>
+      </div>
+      <div style="margin-left: 22px" class="Alert" [hidden]="!EditUserModel.hasError('pattern', 'grade')">
+        请输入数字代表年级数1-4
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputInterest" id="inputInterest" class="col-md-4 col-form-label">爱好：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="interest" autofocus formControlName="interest"
+                 [placeholder]="this._editUser.interest?this._editUser.interest:'未填写爱好'"/>
+        </div>
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputIntroduction" id="inputIntroduction" class="col-md-4 col-form-label">自我介绍：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="introduction" autofocus formControlName="introduction"
+                 [placeholder]="this._editUser.introduction?this._editUser.introduction : '未填写自我介绍'"/>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button style="border-radius: 30px;" nz-button nzType="primary" (click)="modal.dismiss('Cross click')"
+            (click)="onEdit()"
+            [disabled]="!EditUserModel.valid">提交
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editPassWordModal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">修改密码</h4>
+    <button nz-button nzDanger class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="PassWordModel">
+    <div class="modal-body">
+      <div class="row mb-2 search">
+        <label for="inputPassword" id="inputPassword" class="col-md-4 col-form-label">密码：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="password" autofocus formControlName="password"/>
+        </div>
+      </div>
+      <div class="row mb-2 search">
+        <label for="inputConfirmPassword" id="inputConfirmPassword" class="col-md-4 col-form-label">重复密码：</label>
+        <div>
+          <input type="text" class="inputAddBook" id="confirmPassword" autofocus formControlName="confirmPassword"/>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button style="border-radius: 30px;" class="ButtonModal" nz-button nzType="primary"
+            (click)="modal.dismiss('Cross click')" (click)="onEdit()"
+            [disabled]="!PassWordModel.valid">提交
+    </button>
+  </div>
+</ng-template>

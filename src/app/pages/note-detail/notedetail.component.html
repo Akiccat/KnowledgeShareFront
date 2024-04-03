@@ -1,0 +1,75 @@
+<div id="noteDetail">
+  <button nzType="primary" id="shareButton" nz-button (click)="captureAndSaveImage()">分享</button>
+  <button nzType="primary" id="BackButton" nz-button (click)="backToView()">返回</button>
+  <button nzType="primary" *ngIf="!ifAlreadyStart" [disabled]="ifAlreadyStart" id="StarButton" nz-button
+          (click)="starNote()">收藏
+  </button>
+  <button nzType="dashed" *ngIf="ifAlreadyStart" [disabled]="!ifAlreadyStart" id="unStarButton" nz-button
+          (click)="unSubscribeNote()">
+    <div id="unStarButtonFont">取消收藏</div>
+  </button>
+  <button *ngIf="canEdit" nzType="primary" id="EditButton" nz-button (click)="updateNote()">修改</button>
+  <button *ngIf="canEdit" nzType="primary" id="DeleteButton" nzDanger nz-button nz-popconfirm
+          nzPopconfirmTitle="你确定要删除这个笔记吗?"
+          (nzOnConfirm)="deleteNote()"
+          nzPopconfirmPlacement="bottom">删除
+  </button>
+  <div id="noteContent">
+    <div style="background-color: white">
+      <div id="noteInfo"><h3>标题:&nbsp;{{ noteTitle }}👉{{ userName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3></div>
+    </div>
+    <editor style="z-index: 0" id="003"
+            [init]="editorConfig"
+            [initialValue]="noteContent"
+            [disabled]="true"
+    ></editor>
+  </div>
+  <button nzType="primary" nz-button id="postReply" (click)="open(ReplyModal,'')">添加回复</button>
+  <ng-template #commentTemplateRef let-comment="comment">
+    <nz-comment [nzAuthor]="comment.author">
+      <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.avatar"></nz-avatar>
+      <nz-comment-content>
+        <p>{{ comment.content }}</p>
+      </nz-comment-content>
+      <button nz-button class="comment-action-button" id="replyButton" (click)="open(ReplyModal,comment.replyId)">Reply
+        to
+      </button>
+      <ng-container *ngIf="comment.children && comment.children.length">
+        <ng-template ngFor let-child [ngForOf]="comment.children">
+          <ng-template
+            [ngTemplateOutlet]="commentTemplateRef"
+            [ngTemplateOutletContext]="{ comment: child }"
+          ></ng-template>
+        </ng-template>
+      </ng-container>
+    </nz-comment>
+  </ng-template>
+  <ng-container *ngFor="let comment of data">
+    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: comment }"></ng-template>
+  </ng-container>
+</div>
+<ng-template #ReplyModal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">评论</h4>
+    <button nz-button nzDanger class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <nz-comment>
+      <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
+      <nz-comment-content>
+        <nz-form-item>
+          <textarea [(ngModel)]="replyInputValue" nz-input rows="4"></textarea>
+        </nz-form-item>
+      </nz-comment-content>
+    </nz-comment>
+  </div>
+  <div class="modal-footer">
+    <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!replyInputValue" (click)="submitReply()"
+            (click)="modal.dismiss('Cross click')">
+      评论
+    </button>
+  </div>
+</ng-template>

@@ -10,26 +10,59 @@
       <h1>KnowledgeShare✨</h1>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="导航" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="导航" nzIcon="appstore">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="welcome">问答Bot</a>
+            <a routerLink="welcome">问答Bot🤖</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="viewnote">浏览笔记</a>
+            <a routerLink="viewnote">浏览笔记👀</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>创建笔记</a>
+            <a routerLink="editnote">创建笔记🖊</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="starnote">收藏笔记⭐</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="管理员导航" nzIcon="form">
+      <li *ngIf="_currentUser.accessCode == 0" nz-submenu nzOpen nzTitle="管理员导航" nzIcon="team">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>用户管理</a>
+            <a routerLink="user-control">用户管理</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>笔记管理</a>
+            <a routerLink="note-control">笔记管理</a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="_currentUser.accessCode == 0" nz-submenu nzOpen nzTitle="超级管理员导航" nzIcon="team">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="admin-set">设置管理员</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="admin-control">管理员管理</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="个人中心" nzIcon="smile">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="useredit">个人信息管理</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="usernote">个人笔记管理</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="usertag">个人Tag管理</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="统计图表" nzIcon="area-chart">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="visualization">查看数据统计</a>
           </li>
         </ul>
       </li>
@@ -48,6 +81,17 @@
     </nz-header>
     <nz-content>
       <div class="inner-content">
+        <div *ngIf="router.url === '/mainpage'" id="container">
+          <div id="greeting">
+            Hi！
+          </div>
+          <div id="welcome-message">
+            欢迎使用KnowledgeShare⭐，您可以点击左边的导航栏选择想使用的功能
+          </div>
+          <div id="fun">
+            Have Fun
+          </div>
+        </div>
         <router-outlet></router-outlet>
       </div>
     </nz-content>

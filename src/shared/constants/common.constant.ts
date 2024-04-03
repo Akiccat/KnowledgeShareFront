@@ -1,2 +1,2 @@
-export const STORAGE_KEY_USER = 'book-manage-user';
-export const STORAGE_BOOK_SEARCH = 'book-manage-book';
+export const STORAGE_KEY_USER = 'note-manage-user';
+export const STORAGE_NOTE_DATA = 'note-manage-update';
