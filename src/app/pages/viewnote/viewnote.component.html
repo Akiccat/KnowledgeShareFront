@@ -1,13 +1,16 @@
 <input class="ant-input" id="searchInput" [(ngModel)]="noteSearch" (ngModelChange)="ifInput()"
        placeholder="可以通过 标题 或者 #Tag 进行搜索">
 <button nzType="primary" id="searchInputButton" [disabled]="canPost" nz-button (click)="postSearch()">搜索</button>
-<div id="noteDisplay" style="background-color: rgba(212,212,212,0.4);padding:30px;">
+<div id="noteDisplay">
+  <div id="stars"></div>
+  <div id="stars2"></div>
+  <div id="stars3"></div>
   <div>
     <div nz-row [nzGutter]="8">
       <div *ngFor="let note of noteList" nz-col [nzSpan]="8">
         <!--        [nzActions]="[star, heart]-->
         <nz-card [routerLink]="['/mainpage/notedetail',1,note.noteId]" nzHoverable
-                 style="width:300px;margin-bottom: 25px;margin-left: 25px;" [nzCover]="coverTemplate">
+                 [nzCover]="coverTemplate" id="cards">
           <nz-card-meta
             [nzTitle]="note.noteTitle + '             #'+note.noteTag"
             [nzDescription]="note.noteSimpleContent"

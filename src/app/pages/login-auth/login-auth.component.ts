@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {LoginAuthService} from "./login-auth.service";
-import {Router,ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpResult} from "../../../shared/models/http-result.model";
 import {HttpResultStatus} from "../../../shared/constants/http-result-status.constant";
 import {User} from "./user.model";
 import {STORAGE_KEY_USER} from "../../../shared/constants/common.constant";
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {confirmPassWordValidator} from "./RegisterValidators";
 import {NgIf} from "@angular/common";
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -47,7 +47,7 @@ export class LoginAuthComponent {
         const user: User = result.result;
         //localStorage.setItem(key,value)：将value存储到key字段
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
-        if (user !== null && user.accessCode == 0) {
+        if (user !== null && (user.accessCode == 0 || user.accessCode == 1 || user.accessCode == 2)) {
           // 管理员
           this.router.navigate(['/mainpage'], {relativeTo: this.route})
           this.message.success("登录成功")

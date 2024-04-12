@@ -45,4 +45,12 @@ export const apiUrl = {
   userOwnTagUpdate: basePath + '/note/updateTag',
   searchUserOwnNote: basePath + '/note/searchNoteByUser',
   searchUserOwnTag: basePath + '/note/searchTagByUser',
+
+  addReplyHistory: basePath + '/history/addReplyHistory',
+  selectReplyHistory: basePath + '/history/getReplyHistory',
+  deleteReplyHistory: basePath + '/history/deleteReplyHistory',
+
+  addTempHistory: basePath + '/template/addTemplate',
+  deleteTemplate: basePath + '/template/deleteTemplate',
+  getTemplate: basePath + '/template/getTemplate',
 };

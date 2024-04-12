@@ -5,6 +5,11 @@
   -ms-overflow-style: none;
 }
 
+.close {
+  border-radius: 30px;
+  outline: none;
+}
+
 #EditButton {
   position: absolute;
   z-index: 10;

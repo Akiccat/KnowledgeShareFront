@@ -1,15 +1,5 @@
-import {
-  AfterViewInit,
-  Component, DoCheck,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component, DoCheck, Renderer2} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {CommonModule} from "@angular/common";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzCommentModule} from "ng-zorro-antd/comment";
@@ -19,18 +9,25 @@ import {formatDistance} from "date-fns";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzAvatarModule} from "ng-zorro-antd/avatar";
-import {Subject} from "rxjs";
-import {HttpHeaders} from "@angular/common/http";
-import {EventSourcePolyfill} from "ng-event-source";
 import {ActivatedRoute, Router} from "@angular/router";
-import {STORAGE_NOTE_DATA} from "../../../shared/constants/common.constant";
+import {STORAGE_KEY_USER, STORAGE_NOTE_DATA} from "../../../shared/constants/common.constant";
 import {NzTagModule} from "ng-zorro-antd/tag";
 import {NzDrawerModule} from "ng-zorro-antd/drawer";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {WelcomeService} from "./welcome.service";
+import {HttpResult} from "../../../shared/models/http-result.model";
+import {HttpResultStatus} from "../../../shared/constants/http-result-status.constant";
+import {User} from "../login-auth/user.model";
+import {History} from "./History";
+import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
+import {Template} from "./template";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+
 @Component({
   selector: 'app-welcome',
   standalone: true,
   templateUrl: './welcome.component.html',
-  imports: [CommonModule, FormsModule, NzCommentModule, NzListModule, NzFormModule, NzButtonModule, NzInputModule, NzAvatarModule, NzTagModule, NzDrawerModule],
+  imports: [CommonModule, FormsModule, NzCommentModule, NzListModule, NzFormModule, NzButtonModule, NzInputModule, NzAvatarModule, NzTagModule, NzDrawerModule, NzCardModule, NzPopconfirmModule],
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements DoCheck {
@@ -52,15 +49,9 @@ export class WelcomeComponent implements DoCheck {
   replying: boolean = false;
   replyDone: boolean = false;
   ifAsk: boolean = false;
-
-constructor(
-    private message: NzMessageService,
-    private renderer: Renderer2,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-
-  }
+  modalOptions: NgbModalOptions | undefined;
+  listOfHistory: History[] = [];
+  loading = true;
   handleSubmit(): void {
     this.submitting = true;
     const content = this.inputValue;
@@ -157,25 +148,127 @@ constructor(
     localStorage.setItem(STORAGE_NOTE_DATA, JSON.stringify(this.receivedText));
     this.router.navigate(['/mainpage/editnote'], {relativeTo: this.route})
   }
+  visibleHistory = false;
+  childrenVisibleHistory = false;
+  loadingHistory = true;
+  TemplateInputValue = '';
+  closeResult: string | undefined;
 
   visible = false;
   childrenVisible = false;
-
   vegetables = ['asparagus', 'bamboo', 'potato', 'carrot', 'cilantro', 'potato', 'eggplant'];
+  listOfTemplate: Template[] = [];
+  private readonly _currentUser!: User;
 
-  open(): void {
-    this.visible = true;
+constructor(
+    private message: NzMessageService,
+    private renderer: Renderer2,
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: WelcomeService,
+    private modalService: NgbModal
+  ) {
+  this._currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)!);
+  }
+
+  sendToEditorHistory(content: string) {
+    localStorage.setItem(STORAGE_NOTE_DATA, JSON.stringify(content));
+    this.router.navigate(['/mainpage/editnote'], {relativeTo: this.route})
+  }
+
+  recordToService() {
+    this.service.insertAiReply(String(this._currentUser.userId), this.receivedText).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.message.success("保存成功")
+      }
+    })
+  }
+
+  selectHistoryFromService() {
+    this.service.selectAiReply(String(this._currentUser.userId)).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.listOfHistory = result.result
+      }
+    })
+  }
+
+  deleteHistory(historyId: any) {
+    this.service.deleteAiReply(historyId, String(this._currentUser.userId)).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.selectHistoryFromService()
+      }
+    })
   }
 
   close(): void {
     this.visible = false;
   }
 
-  openChildren(): void {
-    this.childrenVisible = true;
+  open(): void {
+    this.selectTemplateFromService();
+    this.visible = true;
   }
 
-  closeChildren(): void {
-    this.childrenVisible = false;
+  openHistory(): void {
+    this.selectHistoryFromService();
+    this.visibleHistory = true;
+  }
+
+  closeHistory(): void {
+    this.visibleHistory = false;
+  }
+
+  selectTemplateFromService() {
+    this.service.selectTemplate(String(this._currentUser.userId)).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.listOfTemplate = result.result
+      }
+    })
+  }
+
+  submitTemplate() {
+    this.service.submitTemplate(this.TemplateInputValue, this._currentUser.userId).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.message.success("创建成功")
+        this.selectTemplateFromService()
+      } else {
+        this.message.error("评论失败")
+      }
+    })
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  cancel(): void {
+  }
+
+  deleteTemp(tempId: any) {
+    this.service.deleteTemp(tempId, String(this._currentUser.userId)).subscribe((result: HttpResult) => {
+      if (result.status == HttpResultStatus.SUCCESS) {
+        this.message.success("删除成功")
+        this.selectTemplateFromService()
+      }
+    })
+  }
+
+  useTemp(tempContent: any) {
+    this.close()
+    this.prompt = tempContent;
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

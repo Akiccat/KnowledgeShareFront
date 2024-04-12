@@ -1,6 +1,7 @@
 <!-- app.component.html -->
 <div class="container">
-  <button nz-button nzType="primary" (click)="open()">New Cookbook</button>
+  <button (click)="open()" id="template" nz-button nzType="primary">快捷模板</button>
+  <button (click)="openHistory()" id="history" nz-button nzType="primary">历史记录</button>
   <div *ngIf="!ifAsk" id="container">
     <div id="greeting">
       Hi！
@@ -32,22 +33,27 @@
   <button nz-button nzType="primary" [nzLoading]="replying" [disabled]="!replyDone" id="reply" (click)="sendToEditor()">
     转存
   </button>
+  <button (click)="recordToService()" [disabled]="!replyDone" [nzLoading]="replying" id="record" nz-button
+          nzType="primary">
+    记录
+  </button>
 </div>
 <nz-drawer
   [nzClosable]="false"
   [nzOffsetX]="childrenVisible ? 180 : 0"
   [nzWidth]="320"
   [nzVisible]="visible"
-  nzTitle="Cookbook"
+  nzTitle="快捷提问模板"
   (nzOnClose)="close()"
 >
   <form *nzDrawerContent nz-form>
     <div nz-row>
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label>Name</nz-form-label>
           <nz-form-control>
-            <input nz-input placeholder="please enter cookbook name"/>
+            <button (click)="openModal(TemplateModal)" id="postReply" nz-button nzType="primary" style="width: 275px">
+              添加模板
+            </button>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -55,21 +61,104 @@
     <div nz-row>
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label>Food</nz-form-label>
           <nz-form-control>
-            <nz-tag>potato</nz-tag>
-            <nz-tag>eggplant</nz-tag>
-            <nz-tag (click)="openChildren()">+</nz-tag>
+            <nz-list nzItemLayout="horizontal">
+              @for (item of listOfTemplate;track item) {
+                <nz-list-item>
+                  <nz-card style="width: 300px">
+                    <nz-card-meta
+                      nzTitle="快捷提问模板"
+                      [nzDescription]="item.tempContent"
+                    ></nz-card-meta>
+                    <button nz-button nzDanger nz-popconfirm
+                            nzPopconfirmTitle="确定要删除这个模板吗?"
+                            (nzOnConfirm)="deleteTemp(item.tempId)"
+                            (nzOnCancel)="cancel()"
+                            nzPopconfirmPlacement="topLeft" style="width: 90px; margin-top: 20px;margin-left: 15px">删除模板
+                    </button>
+                    <button nz-button nzType="primary" (click)="useTemp(item.tempContent)"
+                            style="width: 90px; margin-top: 20px;margin-left: 20px">使用模板
+                    </button>
+                  </nz-card>
+                </nz-list-item>
+              }
+              @if (data.length === 0) {
+                <nz-list-empty/>
+              }
+            </nz-list>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
   </form>
-  <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
-    <nz-list *nzDrawerContent [nzDataSource]="vegetables" [nzRenderItem]="item">
-      <ng-template #item let-item>
-        <nz-list-item [nzContent]="item"></nz-list-item>
-      </ng-template>
-    </nz-list>
-  </nz-drawer>
 </nz-drawer>
+
+<nz-drawer
+  (nzOnClose)="closeHistory()"
+  [nzClosable]="false"
+  [nzOffsetX]="childrenVisibleHistory ? 180 : 0"
+  [nzVisible]="visibleHistory"
+  [nzWidth]="736"
+  nzTitle="保存的历史记录"
+>
+  <form *nzDrawerContent nz-form>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-list nzItemLayout="horizontal">
+              @for (item of listOfHistory;track item) {
+                <nz-list-item>
+                  <nz-card style="width: 690px;margin-top: 6px">
+                    <nz-card-meta
+                      nzTitle="历史记录"
+                      [nzDescription]="item.historyContent"
+                    ></nz-card-meta>
+                    <button nz-button nzDanger nz-popconfirm
+                            nzPopconfirmTitle="确定要删除这条记录吗?"
+                            (nzOnConfirm)="deleteHistory(item.historyId)"
+                            (nzOnCancel)="cancel()"
+                            nzPopconfirmPlacement="topLeft" style="margin-left: 40px;width: 250px; margin-top: 20px">
+                      删除记录
+                    </button>
+                    <button nz-button nzType="primary" (click)="sendToEditorHistory(item.historyContent)"
+                            style="margin-left: 60px;width: 250px; margin-top: 20px">转存记录
+                    </button>
+                  </nz-card>
+                </nz-list-item>
+              }
+              @if (data.length === 0) {
+                <nz-list-empty/>
+              }
+            </nz-list>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</nz-drawer>
+<ng-template #TemplateModal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">添加模板</h4>
+    <button (click)="modal.dismiss('Cross click')" aria-label="Close" class="close" nz-button nzDanger>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <nz-comment>
+      <nz-comment-content>
+        <nz-form-item>
+          <textarea [(ngModel)]="TemplateInputValue" nz-input rows="4"></textarea>
+        </nz-form-item>
+      </nz-comment-content>
+    </nz-comment>
+  </div>
+  <div class="modal-footer">
+    <button (click)="submitTemplate()" (click)="modal.dismiss('Cross click')" [disabled]="!TemplateInputValue" [nzLoading]="submitting"
+            nz-button
+            nzType="primary">
+      添加
+    </button>
+  </div>
+</ng-template>

@@ -20,6 +20,11 @@
   border-radius: 30px;
 }
 
+.close {
+  border-radius: 30px;
+  outline: none;
+}
+
 #send {
   /* 设置按钮的宽度为10% */
   width: 10%;
@@ -30,7 +35,7 @@
   /* 设置按钮的底部距离为10px */
   bottom: 32px;
   /* 设置按钮的右边距为10% */
-  margin-right: -48%;
+  margin-right: -46%;
   border-radius: 30px;
 }
 
@@ -44,7 +49,21 @@
   /* 设置按钮的底部距离为10px */
   bottom: 32px;
   /* 设置按钮的右边距为10% */
-  margin-right: -65%;
+  margin-right: -63%;
+  border-radius: 30px;
+}
+
+#record {
+  /* 设置按钮的宽度为10% */
+  width: 5%;
+  /* 设置按钮的高度为30px */
+  height: 40px;
+  /* 设置按钮的位置为固定 */
+  position: fixed;
+  /* 设置按钮的底部距离为10px */
+  bottom: 32px;
+  /* 设置按钮的右边距为10% */
+  margin-right: -74%;
   border-radius: 30px;
 }
 #clear{
@@ -88,4 +107,24 @@
 
 #fun {
   font-weight: bold;
+}
+
+#template {
+  position: absolute;
+  z-index: 10;
+  left: 91%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 120px;
+}
+
+#history {
+  position: absolute;
+  z-index: 10;
+  left: 82.5%;
+  top: 1.7%;
+  border-radius: 30px;
+  height: 40px;
+  width: 120px;
 }
